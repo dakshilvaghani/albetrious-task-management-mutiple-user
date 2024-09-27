@@ -23,7 +23,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "https://albetrious-task-management-5hs7.vercel.app",
+      "https://albetrious-task-management-mutiple-user-3eoh.onrender.com",
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
