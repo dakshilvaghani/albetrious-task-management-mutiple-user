@@ -12,12 +12,12 @@ import authenticateUser from "../middlewares/authenticateUser.js";
 const router = express.Router();
 
 router.post("/create", authenticateUser, createTask);
-router.get("/", getTasks);
+router.get("/", authenticateUser, getTasks);
 
 router.get("/filter", filterTaskByDate);
 router.get("/:id", getTask);
 router.put("/update/:id",authenticateUser, updateTask);
 
-router.delete("/delete/:id", deleteTask);
+router.delete("/delete/:id", authenticateUser, deleteTask);
 
 export default router;
