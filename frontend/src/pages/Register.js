@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Import useNavigate for redirection
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify"; // Import Toastify
-import "react-toastify/dist/ReactToastify.css"; // Import styles
+import { toast, ToastContainer } from "react-toastify"; 
+import "react-toastify/dist/ReactToastify.css";
 
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate(); // Initialize useNavigate for redirection
+  const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -22,20 +22,20 @@ const Register = () => {
         }
       );
 
-      // Assuming the API returns a token upon successful registration
+      
       const { token } = response.data;
-      localStorage.setItem("token", token); // Store the token in localStorage
+      localStorage.setItem("token", token);
 
       toast.success("Registration successful!");
       setName("");
       setEmail("");
       setPassword("");
 
-      navigate("/login"); // Redirect to the login page after registration
+      navigate("/login");
     } catch (error) {
       const message =
         error.response?.data?.message || "Error registering. Please try again.";
-      toast.error(message); // Show error toast with message from server
+      toast.error(message);
     }
   };
 
