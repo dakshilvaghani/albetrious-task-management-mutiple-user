@@ -43,8 +43,9 @@ const FilterTasks = () => {
   };
 
   return (
-    <div>
-      <div className="ml-5 lg:ml-[125px] xl:ml-[140px] 2xl:ml-[220px]">
+    <div className="w-full ">
+      <div className="flex justify-center text-center flex-col">
+        <div className="w-full md:w-[50%] lg:w-[40%]">
         <h2 className="text-xl font-bold mb-4">Filter Tasks</h2>
 
         {/* Date Filter */}
@@ -80,7 +81,7 @@ const FilterTasks = () => {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="px-4 py-2 border rounded w-full md:w-[50%] lg:w-[25%]"
+            className="px-4 py-2 border rounded w-full md:w-[50%] lg:w-[50%]"
             placeholder="Search by title"
           />
         </div>
@@ -99,7 +100,7 @@ const FilterTasks = () => {
           <ClipLoader color="#007bff" loading={loading} size={30} />
         </div>
       )}
-
+</div>
       {/* Task List */}
       <TaskList tasks={tasks} className="mt-5" />
     </div>
