@@ -13,27 +13,59 @@ const SingleTask = () => {
   useEffect(() => {
     const fetchTask = async () => {
       try {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          toast.error("No authentication token found. Please login.");
+          navigate("/login"); // Redirect to login if no token is found
+          return;
+        }
+        
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+
         const response = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}/task/${id}`
+          `${process.env.REACT_APP_BASE_URL}/task/${id}`,
+          config
         );
         setTask(response.data.task);
       } catch (error) {
         console.error("Error fetching task:", error);
+        toast.error("Error fetching task. Please try again.");
       } finally {
         setLoading(false);
       }
     };
 
     fetchTask();
-  }, [id]);
+  }, [id, navigate]);
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`${process.env.REACT_APP_BASE_URL}/task/delete/${id}`);
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        toast.error("No authentication token found. Please login.");
+        return;
+      }
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      await axios.delete(
+        `${process.env.REACT_APP_BASE_URL}/task/delete/${id}`,
+        config
+      );
       toast.success("Task deleted successfully!");
       navigate("/");
     } catch (error) {
       console.error("Failed to delete task:", error);
+      toast.error("Failed to delete task. Please try again.");
     }
   };
 
