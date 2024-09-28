@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import TaskList from "../components/TaskList";
 import axios from "axios";
 import { ClipLoader } from "react-spinners";
+import { toast } from "react-toastify";
 
 const Home = () => {
   const [tasks, setTasks] = useState([]);
@@ -10,15 +11,28 @@ const Home = () => {
 
   useEffect(() => {
     const fetchTasks = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}/task/`
-        );
+      const token = localStorage.getItem("token");
 
-        // Retrieve userId from local storage
+      if (!token) {
+        toast.error("No authentication token found.");
+        setLoading(false);
+        return;
+      }
+
+      try {
         const userId = localStorage.getItem("userId");
 
-        // Filter tasks to only include those created by the current user
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+
+        const response = await axios.get(
+          `${process.env.REACT_APP_BASE_URL}/task/`,
+          config
+        );
+
         const userTasks = response.data.tasks.filter(
           (task) => task.userId === userId
         );
