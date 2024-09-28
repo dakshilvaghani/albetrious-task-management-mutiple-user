@@ -45,7 +45,6 @@ const TaskForm = ({ task, closeModal }) => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        withCredentials: true, 
       };
 
       if (task) {
