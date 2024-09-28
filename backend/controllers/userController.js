@@ -21,29 +21,26 @@ export const registerUser = async (req, res) => {
   }
 };
 
+//login User
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
-    // Find user by email
+    
     const user = await User.findOne({ email });
     if (!user)
       return res.status(400).json({ message: "Invalid email or password" });
 
-    // Check if password matches
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch)
       return res.status(400).json({ message: "Invalid email or password" });
 
-    // Generate JWT token
     const token = generateToken(user._id);
 
-    // Set token as a cookie
     res.cookie("token", token, {
-      httpOnly: true, // Prevent client-side JavaScript from accessing the cookie
-      maxAge: 3600000, // 1 hour
+      httpOnly: true, 
+      maxAge: 3600000, 
     });
 
-    // Send back user details and token
     res.json({
       token,
       userId: user._id,
