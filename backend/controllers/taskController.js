@@ -1,5 +1,6 @@
 import Task from "../models/Task.js";
 
+//Add Task
 export const createTask = async (req, res) => {
   try {
     const { title, description, stage, date } = req.body;
@@ -12,7 +13,7 @@ export const createTask = async (req, res) => {
       description,
       stage,
       date,
-      userId, // Associate the task with the user
+      userId, 
     });
 
     res
@@ -24,6 +25,7 @@ export const createTask = async (req, res) => {
   }
 };
 
+//get All Tasks
 export const getTasks = async (req, res) => {
   try {
     const tasks = await Task.find().sort({ _id: -1 });
@@ -38,6 +40,7 @@ export const getTasks = async (req, res) => {
   }
 };
 
+//get Particuler Task
 export const getTask = async (req, res) => {
   try {
     const { id } = req.params;
@@ -54,6 +57,7 @@ export const getTask = async (req, res) => {
   }
 };
 
+//update particuler task
 export const updateTask = async (req, res) => {
   try {
     const { id } = req.params;
@@ -78,6 +82,7 @@ export const updateTask = async (req, res) => {
   }
 };
 
+//delete particuler task
 export const deleteTask = async (req, res) => {
   try {
     const { id } = req.params;
@@ -101,14 +106,14 @@ export const filterTaskByDate = async (req, res) => {
 
   // Check for stage filter (in progress or completed)
   if (stage) {
-    filters.stage = stage; // Directly filter by the stage (e.g., "in progress" or "completed")
+    filters.stage = stage; 
   }
 
   // Check for date filter
   if (date) {
-    const startDate = new Date(date); // Start of the specified date
-    const endDate = new Date(startDate); // Clone startDate
-    endDate.setDate(startDate.getDate() + 1); // Set endDate to the next day
+    const startDate = new Date(date); 
+    const endDate = new Date(startDate);
+    endDate.setDate(startDate.getDate() + 1); 
 
     // Filter tasks for the specified date
     filters.date = { $gte: startDate, $lt: endDate };
@@ -116,11 +121,11 @@ export const filterTaskByDate = async (req, res) => {
 
   // Check for title filter
   if (title) {
-    filters.title = { $regex: title, $options: "i" }; // Case-insensitive title search
+    filters.title = { $regex: title, $options: "i" }; 
   }
 
   try {
-    const tasks = await Task.find(filters); // Find tasks that match the filters
+    const tasks = await Task.find(filters);
     res.status(200).json({ status: true, tasks });
   } catch (error) {
     res.status(500).json({ status: false, message: error.message });
