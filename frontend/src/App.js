@@ -8,12 +8,13 @@ import fakeTasks from "./data/fakeTasks";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { useEffect, useState } from "react";
+import { FaBars } from "react-icons/fa";
 
 const App = () => {
   const location = useLocation();
   const [userName, setUserName] = useState(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Check for user token and name on initial load
   useEffect(() => {
     const token = localStorage.getItem("token");
     const name = localStorage.getItem("name");
@@ -29,10 +30,8 @@ const App = () => {
     setUserName(null);
   };
 
-  // Check if user is authenticated
   const isAuthenticated = !!localStorage.getItem("token");
 
-  // Redirect to login if token is not present
   if (
     !isAuthenticated &&
     location.pathname !== "/login" &&
@@ -43,16 +42,26 @@ const App = () => {
 
   return (
     <>
-      <div className="w-full mx-auto p-6">
+      <div className="w-full mx-auto p-6 relative">
         {location.pathname !== "/login" &&
           location.pathname !== "/register" && (
             <nav className="flex items-center justify-between mb-6 bg-white shadow-lg p-4 rounded-lg">
               <div className="flex items-center">
-                <span className="text-xl font-bold text-gray-1000">
+                <span className="sm:text-md md:text-lg lg:text-xl font-bold text-gray-1000">
                   Task Manager
                 </span>
               </div>
-              <div className="flex items-center space-x-6">
+
+              {/* Hamburger menu button  */}
+              <button
+                className="text-blue-500 md:hidden block"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+              >
+                <FaBars size={24} />
+              </button>
+
+              {/* Main Menu */}
+              <div className="hidden md:flex items-center space-x-6">
                 <Link to="/" className="text-blue-500 hover:text-blue-700">
                   Home
                 </Link>
@@ -77,6 +86,61 @@ const App = () => {
                   </>
                 )}
               </div>
+
+              {/* Mobile Menu  */}
+              {isMenuOpen && (
+                <div
+                  className={`fixed inset-0 z-50 bg-black bg-opacity-50 transition-opacity duration-300 ease-in-out ${
+                    isMenuOpen ? "opacity-100" : "opacity-0"
+                  }`}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <div
+                    className={`fixed top-0 right-0 w-1/2 max-w-xs h-full bg-white shadow-lg p-6 transition-transform duration-300 ease-in-out transform ${
+                      isMenuOpen ? "translate-x-0" : "translate-x-full"
+                    }`}
+                    onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the menu
+                  >
+                    <div className="flex flex-col space-y-4">
+                      <Link
+                        to="/"
+                        className="text-blue-500 hover:text-blue-700"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Home
+                      </Link>
+                      <Link
+                        to="/add"
+                        className="text-blue-500 hover:text-blue-700"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Add Task
+                      </Link>
+                      <Link
+                        to="/filter"
+                        className="text-blue-500 hover:text-blue-700"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Filter Tasks
+                      </Link>
+                      {userName && (
+                        <>
+                          <span className="text-gray-800">{userName}</span>
+                          <button
+                            onClick={() => {
+                              handleLogout();
+                              setIsMenuOpen(false);
+                            }}
+                            className="text-blue-500 hover:text-blue-700"
+                          >
+                            Logout
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
             </nav>
           )}
 
