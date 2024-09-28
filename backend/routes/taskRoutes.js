@@ -16,7 +16,7 @@ router.get("/", getTasks);
 
 router.get("/filter", filterTaskByDate);
 router.get("/:id", getTask);
-router.put("/update/:id", updateTask);
+router.put("/update/:id",authenticateUser, updateTask);
 
 router.delete("/delete/:id", deleteTask);
 
