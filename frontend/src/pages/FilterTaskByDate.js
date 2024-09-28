@@ -2,18 +2,18 @@ import React, { useState } from "react";
 import axios from "axios";
 import DatePicker from "../components/DatePicker";
 import TaskList from "../components/TaskList";
-import ClipLoader from "react-spinners/ClipLoader"; // Import the spinner
+import ClipLoader from "react-spinners/ClipLoader"; 
 
 const FilterTasks = () => {
   const [selectedDate, setSelectedDate] = useState("");
-  const [selectedStage, setSelectedStage] = useState(""); // Add stage state
-  const [title, setTitle] = useState(""); // Add title state
+  const [selectedStage, setSelectedStage] = useState(""); 
+  const [title, setTitle] = useState("");
   const [tasks, setTasks] = useState([]);
-  const [loading, setLoading] = useState(false); // Loading state
+  const [loading, setLoading] = useState(false); 
 
   // Fetch filtered tasks based on date, stage, and title
   const handleFilterTasks = async () => {
-    setLoading(true); // Set loading to true before fetching
+    setLoading(true);
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_BASE_URL}/task/filter`,
@@ -21,7 +21,7 @@ const FilterTasks = () => {
           params: {
             date: selectedDate,
             stage: selectedStage,
-            title: title, // Include title in the filter
+            title: title,
           },
         }
       );
@@ -38,7 +38,7 @@ const FilterTasks = () => {
     } catch (error) {
       console.error("Error fetching tasks:", error);
     } finally {
-      setLoading(false); // Set loading to false after fetching
+      setLoading(false); 
     }
   };
 
