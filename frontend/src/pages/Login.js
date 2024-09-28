@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
+import { Link, useNavigate } from "react-router-dom"; 
 import axios from "axios";
-import { toast } from "react-toastify"; // Import Toastify
-import "react-toastify/dist/ReactToastify.css"; // Import styles
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; 
 
 const Login = ({ setUserName }) => {
   const [email, setEmail] = useState("");
