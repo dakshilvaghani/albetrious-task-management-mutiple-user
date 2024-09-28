@@ -33,7 +33,6 @@ const TaskForm = ({ task, closeModal }) => {
       stage,
     };
 
-    // Retrieve the token from local storage
     const token = localStorage.getItem("token");
 
     if (!token) {
@@ -46,7 +45,7 @@ const TaskForm = ({ task, closeModal }) => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        withCredentials: true, // Include this line if you are using cookies
+        withCredentials: true, 
       };
 
       if (task) {
