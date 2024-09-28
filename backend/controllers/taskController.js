@@ -28,15 +28,15 @@ export const createTask = async (req, res) => {
 //get All Tasks
 export const getTasks = async (req, res) => {
   try {
-    const tasks = await Task.find().sort({ _id: -1 });
-
+    const userId = req.user._id;
+    const tasks = await Task.find({ userId }); 
     res.status(200).json({
       status: true,
       tasks,
     });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ status: false, message: "Server error." });
+    console.log(error);
+    res.status(500).json({ status: false, message: error.message });
   }
 };
 
